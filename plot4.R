@@ -1,3 +1,4 @@
+#Download the file and load it to a data frame
 download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",destfile="exdata-data-household_power_consumption.zip")
 datafile<-unzip("exdata-data-household_power_consumption.zip")
 p4data<-read.table(
@@ -11,10 +12,12 @@ p4data<-read.table(
   col.names=c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering_1","Sub_metering_2","Sub_metering_3")
 )
 
-
+#Join the date and time in just one column
 p4t<-paste(p4data[,1]," ",p4data[,2],sep="")
 p4dt<-strptime(p4t,format="%d/%m/%Y %H:%M:%S")
 p4dtdata<-cbind(p4dt,p4data)
+#Get the subset of the data for the analysis dates
+
 p4subdtdata<-subset(p4dtdata,p4dtdata$p4dt>=strptime('01-02-2007',format="%d-%m-%Y") & p4dtdata$p4dt<strptime('03-02-2007',format="%d-%m-%Y"))
 
 png(filename="plot4.png",width=480,height=480)
